@@ -50,7 +50,7 @@ resource "aws_vpc" "web_vpc" {
 
 # Create a public subnet
 resource "aws_subnet" "web_subnet" {
-  vpc_id            = aws_vpc.my_vpc.id
+  vpc_id            = aws_vpc.web_vpc.id
   cidr_block        = "10.0.1.0/24"
   availability_zone = "us-east-1a"  # Change the AZ as needed
 
@@ -61,7 +61,7 @@ resource "aws_subnet" "web_subnet" {
 
 # Create an Internet Gateway
 resource "aws_internet_gateway" "terraform-igw" {
-  vpc_id = aws_vpc.my_vpc.id
+  vpc_id = aws_vpc.web_vpc.id
 
   tags = {
     Name = "terraform-igw"
@@ -70,7 +70,7 @@ resource "aws_internet_gateway" "terraform-igw" {
 
 # Create a Route Table
 resource "aws_route_table" "route_table" {
-  vpc_id = aws_vpc.my_vpc.id
+  vpc_id = aws_vpc.web_vpc.id
 
   route {
     cidr_block = "0.0.0.0/0"
@@ -90,7 +90,7 @@ resource "aws_route_table_association" "route_table_assoc" {
 
 # Create a Security Group
 resource "aws_security_group" "web_sg" {
-  vpc_id = aws_vpc.my_vpc.id
+  vpc_id = aws_vpc.web_vpc.id
 
   ingress {
     from_port   = 80
