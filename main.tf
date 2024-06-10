@@ -5,28 +5,20 @@ provider "aws" {
   region = var.region
 }
 
-data "aws_ami" "ubuntu" {
-  most_recent = true
+module "ec2_instance" {
+  source  = "terraform-aws-modules/ec2-instance/aws"
 
-  filter {
-    name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
-  }
+  name = "terraform-ec2"
 
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  owners = ["099720109477"] # Canonical
-}
-
-resource "aws_instance" "ubuntu" {
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = var.instance_type
+  instance_type          = "t2.micro"
+  key_name               = "terraform-bk"
+  monitoring             = true
+  vpc_security_group_ids = ["sg-12345678"]
+  subnet_id              = "subnet-eddcdzz4"
 
   tags = {
-    Name = var.instance_name
+    Terraform   = "true"
+    Environment = "dev"
   }
 }
 
@@ -50,7 +42,7 @@ module "web_server_sg" {
 
   name        = "web-server"
   description = "Security group for web-server with HTTP ports open within VPC"
-  vpc_id      = "vpc-12345678"
+  vpc_id      = "vpc-0d892bdb41900133c"
 
   ingress_cidr_blocks = ["10.10.0.0/16"]
 }
