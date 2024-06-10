@@ -26,10 +26,6 @@ resource "aws_s3_bucket" "testbucket" {
   }
 }
 
-provider "aws" {
-  region = "us-east-1" #// Specify your desired AWS region
-}
-
 # Define the load balancer resource
 resource "aws_lb" "terraform-lb" {
   name               = "terraform-lb"
@@ -53,14 +49,6 @@ resource "aws_security_group" "lb_sg" {
   #// Define your security group rules as needed
 }
 
-# Define the EC2 instance resource
-resource "aws_instance" "app_server" {
-  ami           = "ami-00beae93a2d981137" #// Specify your desired AMI
-  instance_type = "t2.micro"
-  subnet_id     = aws_subnet.public.id
-  
-  #// Define other instance configurations as needed
-}
 
 # Associate the EC2 instance with the load balancer
 resource "aws_lb_target_group_attachment" "example" {
