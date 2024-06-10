@@ -13,8 +13,7 @@
 
   # Additional configuration settings as needed
 #}
-
-
+#-------------------------------------------------
 
 provider "aws" {
   region = "us-east-1"
@@ -50,28 +49,6 @@ resource "aws_security_group" "websg" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
-}
-
-resource "aws_instance" "my_ec2_instance" {
-  ami           = "ami-00beae93a2d981137" # Replace with the AMI ID you want to use
-  instance_type = "t2.micro"
-  key_name      = "my-key-pair" # Replace with your key pair name
-
-  network_interface {
-    device_index          = 0
-    subnet_id             = "subnet-0d1fa6cfcff239187" # Replace with your subnet ID
-    security_groups       = ["sg-090ef33c74adf5f35"] # Replace with your security group ID
-    associate_public_ip_address = false
-  }
-}
-
-resource "aws_eip" "my_elastic_ip" {
-  vpc = true
-}
-
-resource "aws_eip_association" "eip_assoc" {
-  instance_id   = aws_instance.my_ec2_instance.id
-  allocation_id = aws_eip.my_elastic_ip.id
 }
 
 resource "aws_s3_bucket" "testbucket" {
