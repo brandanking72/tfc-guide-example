@@ -29,3 +29,28 @@ resource "aws_instance" "ubuntu" {
     Name = var.instance_name
   }
 }
+
+module "s3_bucket" {
+  name   = "terraform-bk"
+  source = "terraform-aws-modules/s3-bucket/aws"
+
+  bucket = "my-s3-bucket"
+  acl    = "private"
+
+  control_object_ownership = true
+  object_ownership         = "ObjectWriter"
+
+  versioning = {
+    enabled = true
+  }
+}
+
+module "web_server_sg" {
+  source = "terraform-aws-modules/security-group/aws//modules/http-80"
+
+  name        = "web-server"
+  description = "Security group for web-server with HTTP ports open within VPC"
+  vpc_id      = "vpc-12345678"
+
+  ingress_cidr_blocks = ["10.10.0.0/16"]
+}
