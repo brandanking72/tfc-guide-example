@@ -1,9 +1,9 @@
 # Copyright (c) HashiCorp, Inc.
 # SPDX-License-Identifier: MPL-2.0
 
-#provider "aws" {
-#  region = var.region
-#}
+provider "aws" {
+  region = var.region
+}
 
 module "ec2_instance" {
   source  = "terraform-aws-modules/ec2-instance/aws"
