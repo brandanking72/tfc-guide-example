@@ -19,26 +19,6 @@ provider "aws" {
   region = "us-east-1"
  }
 
-resource "aws_instance" "webserver" {
-  ami                    = "ami-00beae93a2d981137"
-  instance_type          = "t2.micro"
-  vpc_security_group_ids = [aws_security_group.web_sg.id]
-  subnet_id              = "aws_instance.web_subnet"
-
-  tags = {
-    Name = "terraform-bk"
-  }
-}
-
-resource "aws_s3_bucket" "testbucket" {
-  bucket = "terraform-bkbucket"
-
-  tags = {
-    Name        = "terraform-bkbucket"
-    Environment = "Dev"
-  }
-}
-
 # Create a VPC
 resource "aws_vpc" "web_vpc" {
   cidr_block = "10.0.0.0/16"
@@ -111,3 +91,22 @@ resource "aws_security_group" "web_sg" {
   }
 }
 
+resource "aws_instance" "webserver" {
+  ami                    = "ami-00beae93a2d981137"
+  instance_type          = "t2.micro"
+  vpc_security_group_ids = [aws_security_group.web_sg.id]
+  subnet_id              = "aws_instance.web_subnet"
+
+  tags = {
+    Name = "terraform-bk"
+  }
+}
+
+resource "aws_s3_bucket" "testbucket" {
+  bucket = "terraform-bkbucket"
+
+  tags = {
+    Name        = "terraform-bkbucket"
+    Environment = "Dev"
+  }
+}
