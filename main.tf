@@ -32,7 +32,7 @@ resource "aws_vpc" "web_vpc" {
 resource "aws_subnet" "web_subnet" {
   vpc_id            = aws_vpc.web_vpc.id
   cidr_block        = "10.0.1.0/24"
-  availability_zone = "us-east-1"  # Change the AZ as needed
+  availability_zone = "us-east-1a"  # Change the AZ as needed
 
   tags = {
     Name = "web_subnet"
@@ -95,7 +95,7 @@ resource "aws_instance" "webserver" {
   ami                    = "ami-00beae93a2d981137"
   instance_type          = "t2.micro"
   vpc_security_group_ids = [aws_security_group.web_sg.id]
-  subnet_id              = "aws_instance.web_subnet"
+  subnet_id              = [aws_instance.web_subnet.id]
 
   tags = {
     Name = "terraform-bk"
