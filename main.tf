@@ -23,10 +23,9 @@ module "ec2_instance" {
 }
 
 module "s3_bucket" {
-  name   = "terraform-bk"
   source = "terraform-aws-modules/s3-bucket/aws"
 
-  bucket = "my-s3-bucket"
+  bucket = "terraform-bk-bucket"
   acl    = "private"
 
   control_object_ownership = true
