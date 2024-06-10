@@ -22,8 +22,8 @@ provider "aws" {
 resource "aws_instance" "webserver" {
   ami                    = "ami-00beae93a2d981137"
   instance_type          = "t2.micro"
-  vpc_security_group_ids = "aws_security_group.vpc_id"
-  subnet_id              = "aws_instance.subnet_id"
+  vpc_security_group_ids = "aws_security_group.web_sg"
+  subnet_id              = "aws_instance.web_subnet"
 
   tags = {
     Name = "terraform-bk"
@@ -74,7 +74,7 @@ resource "aws_route_table" "route_table" {
 
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.my_igw.id
+    gateway_id = aws_internet_gateway.terraform-igw.id
   }
 
   tags = {
@@ -84,7 +84,7 @@ resource "aws_route_table" "route_table" {
 
 # Associate the Route Table with the Subnet
 resource "aws_route_table_association" "route_table_assoc" {
-  subnet_id      = aws_subnet.my_subnet.id
+  subnet_id      = aws_subnet.wed_subnet.id
   route_table_id = aws_route_table.route_table.id
 }
 
