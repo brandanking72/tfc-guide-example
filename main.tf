@@ -110,3 +110,4 @@ resource "aws_security_group" "web_sg" {
     Name = "web_sg"
   }
 }
+
