@@ -95,7 +95,7 @@ resource "aws_instance" "webserver" {
   ami                    = "ami-00beae93a2d981137"
   instance_type          = "t2.micro"
   vpc_security_group_ids = [aws_security_group.web_sg.id]
-  subnet_id              = aws_instance.web_subnet.id
+  subnet_id              = aws_subnet.web_subnet.id
 
   tags = {
     Name = "terraform-bk"
